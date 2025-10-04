@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# Meditrack - Patient Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Meditrack** is a modern web application for managing patient information. It allows users to **add, view, edit, delete, and search patients** with an intuitive and responsive interface.  
 
-Currently, two official plugins are available:
+This project demonstrates full-stack development skills using **TypeScript, React, TailwindCSS, Vite, FastAPI, and Firebase**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🛠 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend**:  
+- React + TypeScript  
+- TailwindCSS for responsive UI  
+- Vite for fast bundling  
 
-## Expanding the ESLint configuration
+**Backend**:  
+- Python + FastAPI for RESTful APIs  
+- Firebase Realtime Database for storing patient data  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ⚙️ Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Add Patient**: Slide-in form to add patient details like name, age, gender, height, weight, and city.  
+- **View Patient**: Click a patient card to view complete details including **BMI and BMI category**.  
+- **Edit Patient**: Pre-filled form to update patient details.  
+- **Delete Patient**: Remove a patient from the database with confirmation.  
+- **Search Patient**: Search patients by name in real-time.  
+- **Responsive UI**: Works perfectly on desktop and mobile screens.  
+- **Real-time updates**: Changes are reflected immediately after add/edit/delete actions.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🗂 Project Structure
+<pre>
+Meditrack/
+├── frontend/ # React + TypeScript + TailwindCSS
+│ ├── src/
+│ │ ├── components/ # Reusable UI components (PatientForm, PatientModal, etc.)
+│ │ ├── pages/ # Page components (HomePage)
+│ │ ├── App.tsx
+│ │ └── main.tsx
+│ └── package.json
+├── backend/ # FastAPI backend
+│ ├── main.py # API routes for CRUD operations
+│ ├── models.py # Pydantic models for validation
+│ └── requirements.txt
+├── README.md # Project documentation
+└── .gitignore
+</pre>
+## 🧩 How to Use
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Open the **Meditrack app** in your browser.  
+2. Click **“+” Add Patient** to add a new patient.  
+3. Click a patient card to view details in a modal.  
+4. Inside modal, click **Edit** to update patient info or **Delete** to remove a patient.  
+5. Use the **Search bar** to filter patients by name.  
+6. All changes are automatically synced with Firebase.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 📂 Skills Demonstrated
+
+- **Frontend**: TypeScript, React, TailwindCSS, Vite  
+- **Backend**: Python, FastAPI, REST API design, Pydantic validation  
+- **Database**: Firebase Realtime Database integration  
+- **Full-stack development**: Handling CRUD operations, state management, and UI/UX design  
+- **UI/UX skills**: Responsive design, slide-in forms, modals, real-time search  
+
+---
+
+## 🔗 Future Improvements
+
+- Add **authentication** for doctors/admins  
+- Include **reports and statistics** for patients  
+- Implement **pagination** for large datasets  
+- Mobile app version using **React Native or Flutter**  
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+
+
