@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { buildApiUrl } from "../config";
 
 interface Patient {
   id: string;
@@ -16,15 +17,23 @@ interface EditPatientFormProps {
   onPatientUpdated: () => void;
 }
 
-const EditPatientForm: React.FC<EditPatientFormProps> = ({ patient, onClose, onPatientUpdated }) => {
+const EditPatientForm: React.FC<EditPatientFormProps> = ({
+  patient,
+  onClose,
+  onPatientUpdated,
+}) => {
   const [formData, setFormData] = useState<Patient>({ ...patient });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: ["age", "height", "weight"].includes(name) ? Number(value) : value,
+      [name]: ["age", "height", "weight"].includes(name)
+        ? Number(value)
+        : value,
     });
   };
 
@@ -33,7 +42,7 @@ const EditPatientForm: React.FC<EditPatientFormProps> = ({ patient, onClose, onP
     setLoading(true);
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/patients/update/${patient.id}`, {
+      const res = await fetch(buildApiUrl(`/patients/update/${patient.id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -58,15 +67,25 @@ const EditPatientForm: React.FC<EditPatientFormProps> = ({ patient, onClose, onP
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-xl shadow-2xl w-80 space-y-3"
       >
-        <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">Edit Patient</h2>
+        <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
+          Edit Patient
+        </h2>
 
         {["id", "name", "age", "city", "height", "weight"].map((field) => (
           <div key={field}>
             <label className="block text-gray-700 text-sm mb-1 capitalize">
-              {field === "id" ? "Patient ID" : field === "height" ? "Height (cm)" : field === "weight" ? "Weight (kg)" : field}
+              {field === "id"
+                ? "Patient ID"
+                : field === "height"
+                ? "Height (cm)"
+                : field === "weight"
+                ? "Weight (kg)"
+                : field}
             </label>
             <input
-              type={["age", "height", "weight"].includes(field) ? "number" : "text"}
+              type={
+                ["age", "height", "weight"].includes(field) ? "number" : "text"
+              }
               name={field}
               value={(formData as any)[field]}
               onChange={handleChange}

@@ -4,6 +4,7 @@ import SearchBar from "../components/SearchBar";
 import PatientList from "../components/PatientList";
 import PatientModal from "../components/PatientModal";
 import PatientSlideForm from "../components/PatientSlideForm";
+import { buildApiUrl } from "../config";
 
 interface Patient {
   id: string;
@@ -27,7 +28,7 @@ const HomePage: React.FC = () => {
   const fetchPatients = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://127.0.0.1:8000/patients/viewAll");
+      const res = await fetch(buildApiUrl("/patients/viewAll"));
       const data = await res.json();
       setPatients(Object.values(data.patients) as Patient[]);
     } catch (err) {
@@ -52,15 +53,19 @@ const HomePage: React.FC = () => {
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </header>
 
-      <PatientList patients={filteredPatients} loading={loading} onSelectPatient={setSelectedPatient} />
+      <PatientList
+        patients={filteredPatients}
+        loading={loading}
+        onSelectPatient={setSelectedPatient}
+      />
 
-{selectedPatient && (
-  <PatientModal
-    patient={selectedPatient}
-    onClose={() => setSelectedPatient(null)}
-    onPatientUpdated={fetchPatients} 
-  />
-)}
+      {selectedPatient && (
+        <PatientModal
+          patient={selectedPatient}
+          onClose={() => setSelectedPatient(null)}
+          onPatientUpdated={fetchPatients}
+        />
+      )}
 
       {!showForm && (
         <button

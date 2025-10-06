@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { buildApiUrl } from "../config";
 
 interface PatientInfo {
   id: string;
@@ -15,7 +16,10 @@ interface PatientFormProps {
   onClose: () => void;
 }
 
-const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) => {
+const PatientForm: React.FC<PatientFormProps> = ({
+  onPatientAdded,
+  onClose,
+}) => {
   const [patient, setPatient] = useState<PatientInfo>({
     id: "",
     name: "",
@@ -32,7 +36,10 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) =>
   // Close form when clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
@@ -40,11 +47,15 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) =>
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setPatient({
       ...patient,
-      [name]: ["age", "height", "weight"].includes(name) ? Number(value) : value,
+      [name]: ["age", "height", "weight"].includes(name)
+        ? Number(value)
+        : value,
     });
   };
 
@@ -52,7 +63,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) =>
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/patients/", {
+      const response = await fetch(buildApiUrl("/patients/"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(patient),
@@ -86,7 +97,9 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) =>
       className="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300"
     >
       <div className="p-6 flex flex-col h-full">
-        <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center border-b pb-2">Add Patient</h2>
+        <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center border-b pb-2">
+          Add Patient
+        </h2>
 
         <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
           {["id", "name", "age", "city", "height", "weight"].map((field) => (
@@ -101,7 +114,11 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded, onClose }) =>
                   : field}
               </label>
               <input
-                type={["age", "height", "weight"].includes(field) ? "number" : "text"}
+                type={
+                  ["age", "height", "weight"].includes(field)
+                    ? "number"
+                    : "text"
+                }
                 name={field}
                 value={(patient as any)[field]}
                 onChange={handleChange}

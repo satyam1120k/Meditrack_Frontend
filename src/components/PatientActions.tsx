@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { buildApiUrl } from "../config";
 import { Edit, Trash2 } from "lucide-react";
 import EditPatientForm from "./EditPatientForm";
 
@@ -18,14 +19,18 @@ interface PatientActionsProps {
   onPatientUpdated: () => void;
 }
 
-const PatientActions: React.FC<PatientActionsProps> = ({ patient, onClose, onPatientUpdated }) => {
+const PatientActions: React.FC<PatientActionsProps> = ({
+  patient,
+  onClose,
+  onPatientUpdated,
+}) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this patient?")) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/patients/delete/${patient.id}`, {
+      const res = await fetch(buildApiUrl(`/patients/delete/${patient.id}`), {
         method: "DELETE",
       });
 
