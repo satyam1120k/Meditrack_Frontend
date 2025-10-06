@@ -5,6 +5,7 @@ React + Vite + TypeScript app for managing patient information.
 ## Local Development
 
 Requirements:
+
 - Node.js 18+ (Node 20 recommended)
 
 Install and run:
@@ -24,6 +25,7 @@ npm run preview
 ## Configuration
 
 Backend API base URL is resolved in this order:
+
 1. `VITE_API_BASE_URL` at build time (Vite env var)
 2. `window.__API_BASE_URL__` at runtime (optional override)
 3. Default hardcoded URL in `src/config.ts`
@@ -38,7 +40,7 @@ Or override at runtime (e.g., static hosting):
 
 ```html
 <script>
-  window.__API_BASE_URL__ = 'https://your-backend.example.com';
+  window.__API_BASE_URL__ = "https://your-backend.example.com";
 </script>
 ```
 
@@ -51,12 +53,14 @@ This repo is configured to deploy with GitHub Actions to GitHub Pages.
 - Workflow file: `.github/workflows/deploy.yml`.
 
 ### Steps
+
 1. Push to `master` to trigger the workflow.
 2. In GitHub repo Settings → Pages, set Source to "GitHub Actions" (if not already).
 3. Your site will be available at:
    - `https://<your-username>.github.io/Meditrack_Frontend/`
 
 ### Optional secret variable
+
 If your backend URL differs per environment, add a repository secret and the workflow will inject it during build:
 
 - Secret name: `VITE_API_BASE_URL`
@@ -78,9 +82,8 @@ The workflow passes this secret to the Vite build so `import.meta.env.VITE_API_B
 ```
 
 ## Tech Stack
+
 - React 19
 - Vite 7
 - TypeScript 5
 - Tailwind CSS 4
-
-
