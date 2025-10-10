@@ -99,7 +99,9 @@ The application connects to a backend API for patient data management. The API c
 - **Runtime Override**: `window.__API_BASE_URL__`
 
 ### API Endpoints Used
+
 Using Fast API in backend to link with database.
+
 - `GET /patients/viewAll` - Fetch all patients
 - `POST /patients/` - Create new patient
 - `PUT /patients/update/{id}` - Update patient
