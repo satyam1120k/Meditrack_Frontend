@@ -4,7 +4,7 @@ A modern, responsive React application for managing patient information with a c
 
 ## 🚀 Live Demo
 
-Visit the live application: [Meditrack Frontend](https://github.com/samir1120k/Meditrack_Frontend)
+Visit the live application: [Meditrack Frontend](https://samir1120k.github.io/Meditrack_Frontend)
 
 ## 📋 Features
 
