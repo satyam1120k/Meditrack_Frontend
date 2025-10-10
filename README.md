@@ -23,7 +23,11 @@ Visit the live application: [Meditrack Frontend](https://samir1120k.github.io/Me
 - **Build Tool**: Vite 7.1.7
 - **Styling**: Tailwind CSS 4.1.14
 - **Icons**: Lucide React
-- **Deployment**: GitHub Pages
+- **Backend**: Python
+- **API**: Fast API
+- **Database**: Firebase
+- **Frontend Deployment**: GitHub Pages
+- **Backend Development**: Vercel
 - **Package Manager**: npm
 
 ## 📁 Project Structure
@@ -95,7 +99,7 @@ The application connects to a backend API for patient data management. The API c
 - **Runtime Override**: `window.__API_BASE_URL__`
 
 ### API Endpoints Used
-
+Using Fast API in backend to link with database.
 - `GET /patients/viewAll` - Fetch all patients
 - `POST /patients/` - Create new patient
 - `PUT /patients/update/{id}` - Update patient
