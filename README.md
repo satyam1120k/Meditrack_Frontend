@@ -12,7 +12,11 @@ Docs of API for testing: [API Docs](https://meditrack-backend-murex.vercel.app/d
 
 ## 📋 Features
 
+- **User Authentication**: Secure login and signup system with protected routes
 - **Patient Management**: Complete CRUD operations for patient records
+- **Patient Profiles**: Detailed patient profile pages with photo uploads
+- **Clinical Notes**: Add and manage clinical notes for each patient
+- **Document Management**: Upload and manage patient documents and scans
 - **Search Functionality**: Real-time search through patient names
 - **Responsive Design**: Mobile-first design that works on all devices
 - **Modern UI**: Clean, intuitive interface built with Tailwind CSS
@@ -20,6 +24,7 @@ Docs of API for testing: [API Docs](https://meditrack-backend-murex.vercel.app/d
 - **Modal Views**: Detailed patient information in modal overlays
 - **Slide Forms**: Smooth sliding forms for adding new patients
 - **Real-time Updates**: Instant UI updates after operations
+- **Local Storage**: Client-side storage for patient photos, notes, and documents
 
 ## 🛠️ Tech Stack
 
@@ -27,20 +32,21 @@ Docs of API for testing: [API Docs](https://meditrack-backend-murex.vercel.app/d
 - **Build Tool**: Vite 7.1.7
 - **Styling**: Tailwind CSS 4.1.14
 - **Icons**: Lucide React
-- **Backend**: Python
-- **API**: Fast API
+- **Routing**: React Router DOM 7.9.6
+- **HTTP Client**: Axios 1.13.2
+- **Backend**: Python with FastAPI
 - **Database**: Firebase
 - **Frontend Deployment**: GitHub Pages
-- **Backend Development**: Vercel
+- **Backend Deployment**: Vercel
 - **Package Manager**: npm
 
 ## 📁 Project Structure
 
-he
-
 ```
 src/
-├── components/           # Reusable UI components
+├── api/                 # API configuration
+│   └── api.ts          # Axios instance and interceptors
+├── components/          # Reusable UI components
 │   ├── EditPatientForm.tsx    # Form for editing patient details
 │   ├── PatientActions.tsx     # Action buttons (Edit/Delete)
 │   ├── PatientForm.tsx        # Form for adding new patients
@@ -49,9 +55,12 @@ src/
 │   ├── PatientSlideForm.tsx   # Sliding form container
 │   └── SearchBar.tsx          # Search input component
 ├── pages/               # Page components
-│   └── HomePage.tsx           # Main application page
+│   ├── HomePage.tsx           # Main dashboard page
+│   ├── Login.tsx              # User login page
+│   ├── Signup.tsx             # User registration page
+│   └── PatientProfile.tsx     # Detailed patient profile page
 ├── config.ts            # API configuration and URL building
-├── App.tsx              # Root application component
+├── App.tsx              # Root application component with routing
 ├── main.tsx             # Application entry point
 ├── index.css            # Global styles
 └── App.css              # Component-specific styles
@@ -106,7 +115,14 @@ The application connects to a backend API for patient data management. The API c
 
 ### API Endpoints Used
 
-Using Fast API in backend to link with database.
+Using FastAPI in backend to link with Firebase database.
+
+**Authentication Endpoints:**
+
+- `POST /auth/login` - User login
+- `POST /auth/signup` - User registration
+
+**Patient Management Endpoints:**
 
 - `GET /patients/viewAll` - Fetch all patients
 - `POST /patients/` - Create new patient
@@ -141,9 +157,23 @@ Using Fast API in backend to link with database.
    - Auto-calculation of BMI
 
 5. **Edit Patient Form**
+
    - Modal overlay for editing
    - Pre-filled form with current data
    - ID field disabled (non-editable)
+
+6. **Patient Profile Page**
+
+   - Comprehensive patient information display
+   - Photo upload and management
+   - Clinical notes section with add/delete functionality
+   - Document and scan uploads with preview
+   - Local storage for patient-specific data
+
+7. **Authentication Pages**
+   - Login page with email/password authentication
+   - Signup page for new user registration
+   - Protected routes requiring authentication
 
 ### Patient Data Model
 
@@ -163,6 +193,22 @@ interface Patient {
 
 ## 🔄 Application Workflow
 
+### User Authentication
+
+**Signing Up:**
+
+1. Navigate to the signup page
+2. Enter name, email, and password (minimum 6 characters)
+3. Submit to create account
+4. Automatically redirected to login page
+
+**Logging In:**
+
+1. Enter email and password
+2. Upon successful authentication, user data is stored in localStorage
+3. Redirected to the main dashboard (HomePage)
+4. Protected routes are now accessible
+
 ### Adding a Patient
 
 1. Click the "+" button (bottom-right corner)
@@ -172,22 +218,54 @@ interface Patient {
 
 ### Viewing Patient Details
 
+**Quick View (Modal):**
+
 1. Click on any patient card in the grid
 2. Modal opens with complete patient information
 3. View BMI calculation and category
 4. Access edit/delete actions
 
+**Detailed View (Profile Page):**
+
+1. Click on any patient card in the grid
+2. Navigate to full patient profile page
+3. View comprehensive patient information
+4. Access photo upload, clinical notes, and document management
+
+### Managing Patient Profile
+
+**Uploading Patient Photo:**
+
+1. Navigate to patient profile page
+2. Click camera icon on patient avatar
+3. Select image file
+4. Photo is saved to localStorage and displayed
+
+**Adding Clinical Notes:**
+
+1. Navigate to patient profile page
+2. Type note in the text area
+3. Click "+" button or press Enter
+4. Note is saved with timestamp to localStorage
+
+**Uploading Documents:**
+
+1. Navigate to patient profile page
+2. Click "Upload" button in Documents section
+3. Select file (images or PDFs)
+4. Document is saved to localStorage and displayed in grid
+
 ### Editing a Patient
 
-1. Open patient modal
+1. Open patient modal or profile page
 2. Click "Edit" button
 3. Modify patient information in the edit form
 4. Submit changes
-5. Modal closes and data refreshes
+5. Data refreshes automatically
 
 ### Deleting a Patient
 
-1. Open patient modal
+1. Open patient modal or profile page
 2. Click "Delete" button
 3. Confirm deletion in browser dialog
 4. Patient is removed and list refreshes
@@ -237,6 +315,29 @@ interface Patient {
 - Confirmation dialogs
 - API integration for operations
 
+### Login
+
+- Email and password authentication
+- Error handling and validation
+- Redirects to dashboard on success
+- Link to signup page
+
+### Signup
+
+- User registration form
+- Password validation (minimum 6 characters)
+- Success/error messaging
+- Auto-redirect to login after registration
+
+### PatientProfile
+
+- Comprehensive patient information display
+- Photo upload with base64 encoding
+- Clinical notes management (add/delete)
+- Document upload and preview
+- Local storage integration
+- Navigation back to dashboard
+
 ## 🚀 Deployment
 
 The application is configured for GitHub Pages deployment:
@@ -254,6 +355,8 @@ The application is configured for GitHub Pages deployment:
 
 The `gh-pages` package handles the deployment process automatically.
 
+**Note**: The application uses HashRouter (instead of BrowserRouter) to ensure proper routing on GitHub Pages, which doesn't support server-side routing.
+
 ## 🔧 Configuration
 
 ### Environment Variables
@@ -264,13 +367,35 @@ Create a `.env` file in the root directory:
 VITE_API_BASE_URL=your_api_url_here
 ```
 
+### API Configuration
+
+The application uses two API configuration files:
+
+1. **`src/config.ts`**:
+
+   - Centralized API URL configuration
+   - Supports environment variables and runtime overrides
+   - URL building utility functions
+
+2. **`src/api/api.ts`**:
+   - Axios instance with base URL configuration
+   - Response interceptors for error handling
+   - Default headers configuration
+
+### Authentication & Storage
+
+- **User Authentication**: Stored in `localStorage` as `user` key
+- **Patient Photos**: Stored in `localStorage` as `patient_photo_{id}`
+- **Clinical Notes**: Stored in `localStorage` as `patient_notes_{id}`
+- **Documents**: Stored in `localStorage` as `patient_docs_{id}`
+
 ### Vite Configuration
 
 The `vite.config.ts` includes:
 
 - React plugin
 - Tailwind CSS plugin
-- GitHub Pages base path configuration
+- GitHub Pages base path configuration (`/Meditrack_Frontend/`)
 
 ## 🤝 Contributing
 
@@ -290,12 +415,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - GitHub: [@samir1120k](https://github.com/samir1120k)
 
+## 🔐 Security Notes
+
+- User authentication is handled via FastAPI backend
+- Protected routes require valid user session in localStorage
+- Patient data is stored in Firebase database
+- Local storage is used for client-side features (photos, notes, documents)
+- All API calls are made to the deployed backend on Vercel
+
 ## 🙏 Acknowledgments
 
 - Built with React and TypeScript
 - Styled with Tailwind CSS
 - Icons provided by Lucide React
-- Deployed on GitHub Pages
+- Routing handled by React Router DOM
+- HTTP requests managed with Axios
+- Backend API built with FastAPI
+- Deployed on GitHub Pages (Frontend) and Vercel (Backend)
 
 ---
 
