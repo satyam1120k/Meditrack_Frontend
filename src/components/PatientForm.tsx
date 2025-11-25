@@ -63,13 +63,30 @@ const PatientForm: React.FC<PatientFormProps> = ({
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(buildApiUrl("/patients/"), {
+      const url = buildApiUrl("/patients/");
+      console.log("Submitting to:", url);
+      console.log("Patient data:", patient);
+
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(patient),
       });
 
-      if (!response.ok) throw new Error("Failed to submit patient info");
+      console.log("Response status:", response.status);
+      const responseData = await response.text();
+      console.log("Response data:", responseData);
+
+      if (!response.ok) {
+        let errorMsg = "Failed to submit patient info";
+        try {
+          const errorData = JSON.parse(responseData);
+          errorMsg = errorData.detail || errorData.message || errorMsg;
+        } catch {
+          errorMsg = `${errorMsg} (Status: ${response.status})`;
+        }
+        throw new Error(errorMsg);
+      }
 
       alert("✅ Patient added successfully!");
       setPatient({
@@ -83,9 +100,10 @@ const PatientForm: React.FC<PatientFormProps> = ({
       });
       onPatientAdded();
       onClose();
-    } catch (error) {
-      console.error(error);
-      alert("❌ Error submitting patient info");
+    } catch (error: any) {
+      console.error("Full error:", error);
+      const errorMessage = error.message || "Error submitting patient info";
+      alert(`❌ ${errorMessage}\n\nCheck the browser console (F12) for details.`);
     } finally {
       setLoading(false);
     }
@@ -108,10 +126,10 @@ const PatientForm: React.FC<PatientFormProps> = ({
                 {field === "id"
                   ? "Patient ID"
                   : field === "height"
-                  ? "Height (cm)"
-                  : field === "weight"
-                  ? "Weight (kg)"
-                  : field}
+                    ? "Height (cm)"
+                    : field === "weight"
+                      ? "Weight (kg)"
+                      : field}
               </label>
               <input
                 type={
