@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Patient {
   id: string;
@@ -15,10 +16,12 @@ interface Patient {
 interface PatientListProps {
   patients: Patient[];
   loading: boolean;
-  onSelectPatient: (patient: Patient) => void;
+  onSelectPatient: (patient: Patient) => void; // Kept for compatibility but unused for navigation now
 }
 
-const PatientList: React.FC<PatientListProps> = ({ patients, loading, onSelectPatient }) => {
+const PatientList: React.FC<PatientListProps> = ({ patients, loading }) => {
+  const navigate = useNavigate();
+
   if (loading) return <div className="text-center col-span-full">Loading patients...</div>;
   if (patients.length === 0) return <div className="text-center col-span-full text-gray-500">No patients found.</div>;
 
@@ -27,11 +30,16 @@ const PatientList: React.FC<PatientListProps> = ({ patients, loading, onSelectPa
       {patients.map((patient) => (
         <div
           key={patient.id}
-          onClick={() => onSelectPatient(patient)}
-          className="bg-white shadow-md rounded-xl p-4 cursor-pointer hover:shadow-xl transition"
+          onClick={() => navigate(`/patient/${patient.id}`, { state: { patient } })}
+          className="bg-white shadow-md rounded-xl p-4 cursor-pointer hover:shadow-xl transition transform hover:-translate-y-1 duration-200"
         >
-          <h2 className="font-semibold text-lg">{patient.name}</h2>
-          <p className="text-gray-500">ID: {patient.id}</p>
+          <h2 className="font-semibold text-lg text-gray-800">{patient.name}</h2>
+          <p className="text-gray-500 text-sm">ID: {patient.id}</p>
+          <div className="mt-2 flex items-center text-xs text-gray-400">
+            <span>{patient.city}</span>
+            <span className="mx-1">•</span>
+            <span>{patient.age} yrs</span>
+          </div>
         </div>
       ))}
     </div>
